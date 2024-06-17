@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style type="text/css">
+        body {
+            font-family: 'Arial', sans-serif;
+
+        }
+        .centered-heading {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body style="background-color: rgba(101,96,96,0.35);">
+<header class="d-flex justify-content-between align-items-center px-4 py-2" style="background-color: rgba(101,96,96,0.3);">
+    <img src="https://students.finki.ukim.mk/finki-logo-9.png" alt="Logo" class="logo">
+    <nav>
+        <ul class="nav justify-content-end">
+            <li class="nav-item"><a class="nav-link" href="/" style="color: black;">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout" style="color: black;">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<br><br>
+<div class="container" style="background-color: rgba(255,255,255,0.69);">
+    <div class="form-container" >
+        <br>
+        <h3 class="centered-heading">Детално за темата: <span th:text="${topic?.title}"></span></h3>
+        <br>
+        <form th:method="GET" th:action="@{'/topics/' + ${topic.id} + '/details'}">
+            <div class="card">
+                <div class="card-body">
+                    <strong><em>
+                        <h5 class="card-text" style="">Опис на тема: </h5>
+                    </em></strong>
+                    <br>
+                    <span th:text="${topic?.description}"></span>
+                </div>
+
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <strong><em>
+                        <a th:if="${professor == topic.professor}" th:href="@{'/topics/addTask/{id}' (id=${topic.id})}" class="btn btn-secondary btn-he">Add task</a>
+                        <h5 class="card-text" style="">Таскови: </h5>
+                    </em></strong>
+                    <br>
+                    <span>
+                        <ul th:if="${isEnrolled || professor == topic.professor}">
+                            <li class="item" th:each="task: ${topic?.tasks}">
+                                <span th:text="${task?.title}"></span>
+                                <span th:if="${task?.completed}" class="check-icon">&#10003;</span>
+                            <a  th:if="${!task?.completed}" th:href="@{'/topics/completeTask/{id}' (id=${task.id})}" class="btn btn-success btn-he">Complete</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div class="d-flex justify-content-end pt-2 pb-1">
+            <a id="back" href="/topics" type="button" class="btn btn-secondary btn-sm">Врати се назад</a>
+        </div>
+    </div>
+</div>
+<div  style="clear: left; text-align: left; margin-top: 10px; margin-left: 13%; font-size: smaller;" >
+    ©2024 ФИНКИ Сите права се задржани</div>
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+</script>
+</body>
+</html>

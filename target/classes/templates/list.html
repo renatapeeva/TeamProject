@@ -1,0 +1,229 @@
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Теми</title>-->
+<!--    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Arial', sans-serif;-->
+
+<!--        }-->
+<!--        .btn-he {-->
+<!--            padding: 0.25rem 0.5rem;-->
+<!--            font-size: 0.75rem;-->
+<!--            margin-bottom: 5px;-->
+<!--        }-->
+<!--        table{-->
+<!--            border-collapse: separate;-->
+<!--            border-spacing: 10px;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .table-header th {-->
+<!--            background-color: #f0f0f0;-->
+<!--            border-bottom: 2px solid black;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body style="background-color: rgba(101,96,96,0.35);">-->
+
+<!--<header class="d-flex justify-content-between align-items-center px-4 py-2" style="background-color: rgba(101,96,96,0.3);">-->
+<!--    <img src="https://students.finki.ukim.mk/finki-logo-9.png" alt="Logo" class="logo">-->
+<!--    <nav>-->
+<!--        <ul class="nav justify-content-end">-->
+<!--            <li class="nav-item"><a class="nav-link" href="/" style="color: black;">Home</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Login</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Logout</a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--</header>-->
+<!--<br>-->
+
+<!--<div class="container" style="background-color: rgba(255,255,255,0.87);">-->
+<!--    <div class="row justify-content-center">-->
+<!--        <table>-->
+<!--            <tr class="table-header">-->
+<!--                <th class="center-text">Наслов на тема</th>-->
+<!--                <th class="center-text">Опис</th>-->
+<!--                <th class="center-text">Пријавени студенти</th>-->
+<!--                <th class="center-text">Професор</th>-->
+<!--                <th class="center-text">Пријавени студенти</th>-->
+<!--                <th th:if="${professor != null}"><a href="/topics/add" class="btn btn-primary btn-he">Додади тема</a></th>-->
+<!--            </tr>-->
+<!--            <tr class="item" th:each="topic: ${topics}">-->
+<!--                <td th:text="${topic.title}">[topic.title]</td>-->
+<!--                <td th:text="${topic.description}">[topic.description]</td>-->
+<!--                <td>-->
+<!--                    <ul>-->
+<!--                        <li th:each="student: ${topic?.students}" th:text="${student?.name}">[student.name]</li>-->
+<!--                    </ul>-->
+<!--                </td>-->
+<!--                <td th:text="${topic.professor.name}">[topic.owner.name]</td>-->
+<!--                <td th:text="${topic.students.size()}">[topic.counter]</td>-->
+<!--                <td th:if="${#temporals.createNow().isBefore(topic.dueDate) and student != null}">-->
+<!--                    <form th:method="POST" th:action="@{'/topics/{id}/enroll' (id=${topic.id})}">-->
+<!--                        <button type="submit" class="btn btn-success btn-he">Пријави се</button>-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--                <td th:if="${#temporals.createNow().isAfter(topic.dueDate) and student != null}">-->
+<!--                    <p class="alert alert-danger">Рокот за пријавување е поминат!</p>-->
+<!--                </td>-->
+<!--&lt;!&ndash;                <td th:if="${student != null}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <form th:method="POST" th:action="@{'/topics/{id}/enroll' (id=${topic.id})}">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="submit" class="btn btn-success btn-he">Пријави се</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </form>&ndash;&gt;-->
+<!--&lt;!&ndash;                </td>&ndash;&gt;-->
+<!--                <td th:if="${student != null}">-->
+<!--                     <th:block th:if="${topic.students.contains(student)}">-->
+<!--                           <form th:method="POST" th:action="@{'/topics/{id}/cancel' (id=${topic.id})}">-->
+<!--                               <button type="submit" class="btn btn-danger btn-he">Откажи се</button>-->
+<!--                           </form>-->
+<!--                     </th:block>-->
+<!--                </td>-->
+<!--&lt;!&ndash;                <td th:if="${professor == topic.professor}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a th:href="@{'/topics/{id}/edit' (id=${topic.id})}" class="btn btn-secondary btn-he">Измени тема</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <form th:method="POST" th:action="@{'/topics/{id}/delete' (id=${topic.id})}">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="submit" class="btn btn-secondary btn-he">Избриши тема</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </form>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </td>&ndash;&gt;-->
+<!--                <td th:if="${professor == topic.professor}">-->
+<!--                    <a th:href="@{'/topics/{id}/edit' (id=${topic.id})}" class="btn btn-secondary btn-he">Измени тема</a>-->
+<!--                    <form id="deleteForm" th:method="POST" th:action="@{'/topics/{id}/delete' (id=${topic.id})}">-->
+<!--                        <button type="button" onclick="confirmDelete()" class="btn btn-secondary btn-he">Избриши тема</button>-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div  style="clear: left; text-align: left; margin-top: 10px; margin-left: 13%; font-size: smaller;" >-->
+<!--    ©2024 ФИНКИ Сите права се задржани</div>-->
+
+<!--<script>-->
+<!--    function confirmDelete() {-->
+<!--        if (confirm("Дали сте сигурни дека саката да се избрише оваа тема?")) {-->
+<!--            document.getElementById('deleteForm').submit();-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Теми</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+
+        }
+        .btn-he {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+        }
+        table{
+            border-collapse: separate;
+            border-spacing: 10px;
+            text-align: center;
+        }
+        .table-header th {
+            background-color: rgba(255, 255, 255, 0.73);
+            /*border-bottom: 2px solid black;*/
+        }
+    </style>
+</head>
+
+<body style="background-color: rgba(101,96,96,0.35);">
+
+<header class="d-flex justify-content-between align-items-center px-4 py-2" style="background-color: rgba(101,96,96,0.3);">
+    <img src="https://students.finki.ukim.mk/finki-logo-9.png" alt="Logo" class="logo">
+    <nav>
+        <ul class="nav justify-content-end">
+            <li class="nav-item"><a class="nav-link" href="/" style="color: black;">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<br>
+
+<div class="container" style="background-color: rgba(255,255,255,0.87);">
+    <div class="row justify-content-center">
+        <table>
+            <tr class="table-header">
+                <th class="center-text"><h5><strong>Наслов на тема</strong></h5></th>
+                <th class="center-text"><h5><strong>Опис</strong></h5></th>
+                <th class="center-text"><h5><strong>Пријавени студенти</strong></h5></th>
+                <th class="center-text"><h5><strong>Професор</strong></h5></th>
+                <th class="center-text"><h5><strong>Број на пријавени студенти</strong></h5></th>
+                <th th:if="${professor != null}"><a href="/topics/add" class="btn btn-primary btn-he">Додади тема</a></th>
+            </tr>
+            <tr class="item" th:each="topic: ${topics}">
+                <td th:text="${topic.title}">[topic.title]</td>
+                <td>
+                    <a th:href="@{'/topics/' + ${topic.id} + '/details'}" class="btn btn-link">Детали</a>
+                </td>
+                <td>
+                    <ul>
+<!--                        <li th:each="student: ${topic?.students}" th:text="${student?.name}">[student.name]</li>-->
+                        <li th:if="${topic?.students != null && !topic.students.isEmpty()}" th:text="${topic.students[0].name}">[student.name]</li>
+                        <li style="list-style-type: none" th:if="${topic?.students.size() > 1}">
+                            ... + <span th:text="${topic.students.size() - 1}"></span> more students<span th:if="${topic.students.size() - 1 > 1}">s</span>
+                        </li>
+                    </ul>
+                </td>
+                <td th:text="${topic.professor.name}">[topic.owner.name]</td>
+                <td th:text="${topic.students.size()}">[topic.counter]</td>
+                <td th:if="${#temporals.createNow().isBefore(topic.dueDate) and student != null}">
+                    <form th:method="POST" th:action="@{'/topics/{id}/enroll' (id=${topic.id})}">
+                        <button type="submit" class="btn btn-success btn-he">Пријави се</button>
+                    </form>
+                </td>
+                <td th:if="${#temporals.createNow().isAfter(topic.dueDate) and student != null}">
+                    <p class="alert alert-danger">Рокот за пријавување е поминат!</p>
+                </td>
+                <td th:if="${student != null}">
+                    <th:block th:if="${topic.students.contains(student)}">
+                        <form th:method="POST" th:action="@{'/topics/{id}/cancel' (id=${topic.id})}">
+                            <button th:if="${isEnrolled}" type="submit" class="btn btn-danger btn-he">Откажи се</button>
+                        </form>
+                    </th:block>
+                </td>
+
+                <td th:if="${professor == topic.professor}">
+
+                    <form th:method="POST" th:action="@{'/topics/{id}/close' (id=${topic.id})}">
+                        <button type="submit" class="btn btn-danger btn-he">Затвори тема</button>
+                    </form>
+                    <a th:href="@{'/topics/{id}/edit' (id=${topic.id})}" class="btn btn-secondary btn-he">Измени тема</a>
+                    <form id="deleteForm" th:method="POST" th:action="@{'/topics/{id}/delete' (id=${topic.id})}">
+                        <button type="button" onclick="confirmDelete()" class="btn btn-danger btn-he">Избриши тема</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div  style="clear: left; text-align: left; margin-top: 10px; margin-left: 13%; font-size: smaller;" >
+    ©2024 ФИНКИ Сите права се задржани</div>
+
+<script>
+    function confirmDelete() {
+        if (confirm("Дали сте сигурни дека саката да се избрише оваа тема?")) {
+            document.getElementById('deleteForm').submit();
+        }
+    }
+</script>
+</body>
+</html>
+

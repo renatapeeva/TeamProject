@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<header class="p-3 text-bg-dark" th:fragment="header">
+
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start d-print-none">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <img src="/io.png" style="width: 25px"/>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li>
+                <a href="/admin/joined-subjects" class="nav-link px-2 text-white">Предмети за распоред</a>
+            </li>
+            <li>
+                <a href="/admin/course-preferences" class="nav-link px-2 text-white">Организација</a>
+            </li>
+            <li>
+                <a href="/admin/subject-requests/my" class="nav-link px-2 text-white">
+                    Пријавување за предмети
+                </a>
+            </li>
+            <li>
+                <a href="/engagement/my" class="nav-link px-2 text-white">
+                    Декларации
+                </a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/subject-requests" class="nav-link px-2 text-white">Преференци на проф.</a>
+            </li>
+
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/semester" class="nav-link px-2 text-white">Семестри</a></li>
+
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/students" class="nav-link px-2 text-white">Студенти</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/enroll/student-subject" class="nav-link px-2 text-white">Уписи</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/subject-teacher-allocation" class="nav-link px-2 text-white">Распределба</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/subject-allocation-stats" class="nav-link px-2 text-white">Групи по предмет</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/teacher-allocation-stats" class="nav-link px-2 text-white">Распределба професори</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/student-groups" class="nav-link px-2 text-white">Групи студенти</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/admin/courses" class="nav-link px-2 text-white">Курсеви</a>
+            </li>
+        </ul>
+
+
+        <div class="text-end" sec:authorize="isAuthenticated()">
+            <span sec:authentication="name"></span>
+            <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+        </div>
+    </div>
+
+</header>
+</body>
+</html>

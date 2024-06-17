@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit-form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style type="text/css">
+        body {
+            font-family: 'Arial', sans-serif;
+
+        }
+        .centered-heading {
+            text-align: center;
+        }
+    </style>
+</head>
+<body style="background-color: rgba(101,96,96,0.35);">
+<header class="d-flex justify-content-between align-items-center px-4 py-2" style="background-color: rgba(101,96,96,0.3);">
+    <img src="https://students.finki.ukim.mk/finki-logo-9.png" alt="Logo" class="logo">
+    <nav>
+        <ul class="nav justify-content-end">
+            <li class="nav-item"><a class="nav-link" href="/" style="color: black;">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login" style="color: black;">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout" style="color: black;">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<br><br>
+<div class="container" style="background-color: rgb(255,255,255);">
+    <div class="form-container" >
+        <h2 class="centered-heading">Додади таск</h2>
+        <form th:method="POST" th:action="@{/tasks}">
+            <div class="form-group">
+                <label for="title">Наслов на таск</label>
+                <input type="text"
+                       class="form-control"
+                       id="title"
+                       name="title"
+                       required>
+            </div>
+            <div class="form-group">
+                <label for="description">Опис на таск</label>
+                <input type="text"
+                       class="form-control"
+                       id="description"
+                       name="description"
+                       style="height: 100px;"
+                       required>
+            </div>
+            <input type="hidden" id="topicId" name="topicId" th:value="${topic.id}">
+            <br>
+            <div class="d-flex justify-content-end">
+                <button id="submit" type="submit" class="btn btn-primary btn-success btn-sm">Одобри</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<div  style="clear: left; text-align: left; margin-top: 10px; margin-left: 13%; font-size: smaller;" >
+    ©2024 ФИНКИ Сите права се задржани</div>
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+</script>
+</body>
+</html>
